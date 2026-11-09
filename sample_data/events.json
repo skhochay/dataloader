@@ -1,0 +1,4 @@
+[
+  {"event": "signup", "user": 1},
+  {"event": "login", "user": 1}
+]

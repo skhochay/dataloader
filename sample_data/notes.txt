@@ -1,0 +1,4 @@
+First line of the notes file
+Second line
+
+Fourth line, after a blank one
