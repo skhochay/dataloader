@@ -116,6 +116,52 @@ const ICONS = {
   ),
 };
 
+// Which icon and colour a node gets, worked out from its id. Deriving it here
+// rather than tagging every entry in tree.js means a tree that grows a new
+// node picks up the right icon on its own, and nothing in tree.js has to
+// change to adopt icons at all. A node may still set `icon` / `tone`
+// explicitly, and that always wins.
+const BY_ID = {
+  overview: ["overview", "accent"],
+  directories: ["folders", "stage"],
+  history: ["history", "muted"],
+  databases: ["database", "db"],
+  mappings: ["mapping", "map"],
+  config: ["sliders", "muted"],
+  "jobs:all": ["list", "muted"],
+  "jobs:loaded": ["check", "archive"],
+  "jobs:failed": ["alert", "fail"],
+  "jobs:progress": ["progress", "stage"],
+};
+
+// Leaves created from data: one entry per id prefix.
+const BY_PREFIX = [
+  ["prof:", "folder", "stage"],
+  ["db:", "plug", "db"],
+  ["map:", "arrow", "map"],
+  ["jobs:", "list", "muted"],
+];
+
+/** Returns { name, tone } for a tree node. */
+export function iconFor(node) {
+  if (!node || !node.id) return { name: null, tone: null };
+  // "Add ..." rows are actions, not objects, so they all share the plus.
+  if (node.action) return { name: node.icon || "plus", tone: node.tone || "accent" };
+
+  let name = node.icon;
+  let tone = node.tone;
+  if (!name || !tone) {
+    const exact = BY_ID[node.id];
+    const prefix = exact ? null : BY_PREFIX.find(([p]) => node.id.startsWith(p));
+    name = name || (exact ? exact[0] : prefix ? prefix[1] : null);
+    tone = tone || (exact ? exact[1] : prefix ? prefix[2] : "muted");
+  }
+  // tree.js marks a switched-off profile or mapping with an "off" badge; dim
+  // the icon to match, so the tree shows at a glance what the engine ignores.
+  if (node.meta === "off") tone = "off";
+  return { name, tone };
+}
+
 /**
  * One tree icon. `name` picks the artwork and `tone` picks the colour class;
  * an unknown name renders nothing so a new tree node cannot crash the sidebar.

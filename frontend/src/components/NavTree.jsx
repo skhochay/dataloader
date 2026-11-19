@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from "react";
 
-import TreeIcon from "./icons.jsx";
+import TreeIcon, { iconFor } from "./icons.jsx";
 
 function flatten(nodes, expanded, depth = 1, parentId = null, out = []) {
   for (const node of nodes) {
@@ -72,6 +72,7 @@ export default function NavTree({ nodes, selectedId, onSelect, counts }) {
           const isGroup = Boolean(node.children);
           const selected = (!isGroup || node.selectable) && node.id === selectedId;
           const count = counts?.[node.id];
+          const icon = iconFor(node);
           return (
             <li key={node.id} role="none">
               <button
@@ -92,11 +93,11 @@ export default function NavTree({ nodes, selectedId, onSelect, counts }) {
                     <path d="M3 1.5L6.5 5L3 8.5" />
                   </svg>
                 )}
-                {node.icon ? (
-                  <TreeIcon name={node.icon} tone={node.tone} />
+                {icon.name ? (
+                  <TreeIcon name={icon.name} tone={icon.tone} />
                 ) : (
-                  // No icon named: fall back to the old colour dot so a node
-                  // added without one still lines up with its neighbours.
+                  // An id with no icon mapped: fall back to the old colour dot
+                  // so the row still lines up with its neighbours.
                   <span className={`swatch ${node.tone ? `swatch-${node.tone}` : ""}`} aria-hidden="true" />
                 )}
                 <span className="treeitem-label" title={node.label}>{node.label}</span>

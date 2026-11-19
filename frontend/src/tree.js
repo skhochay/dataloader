@@ -3,28 +3,22 @@ const BASE_TREE = [
   {
     id: "overview",
     label: "Overview",
-    icon: "overview",
-    tone: "accent",
     title: "Overview",
     description: "Where files are right now, and the latest loads.",
   },
   {
     id: "history",
     label: "Load history",
-    icon: "history",
-    tone: "muted",
     children: [
-      { id: "jobs:all", label: "All loads", icon: "list", tone: "muted", title: "All loads", description: "Every load attempt, newest first." },
-      { id: "jobs:loaded", label: "Loaded", icon: "check", tone: "archive", title: "Loaded", description: "Loads that completed." },
-      { id: "jobs:failed", label: "Failed", icon: "alert", tone: "fail", title: "Failed", description: "Loads that were rejected. Open one to see why." },
-      { id: "jobs:progress", label: "In progress", icon: "progress", tone: "stage", title: "In progress", description: "Loading now, or queued for a retry." },
+      { id: "jobs:all", label: "All loads", title: "All loads", description: "Every load attempt, newest first." },
+      { id: "jobs:loaded", label: "Loaded", title: "Loaded", description: "Loads that completed." },
+      { id: "jobs:failed", label: "Failed", title: "Failed", description: "Loads that were rejected. Open one to see why." },
+      { id: "jobs:progress", label: "In progress", title: "In progress", description: "Loading now, or queued for a retry." },
     ],
   },
   {
     id: "config",
     label: "Configuration",
-    icon: "sliders",
-    tone: "muted",
     title: "Configuration",
     description: "Timing and loading options. Changes apply on the engine’s next scan; no restart needed.",
   },
@@ -45,8 +39,6 @@ export function buildTree(connections = [], kinds = [], profiles = [], mappings 
   const directories = {
     id: "directories",
     label: "Directories",
-    icon: "folders",
-    tone: "stage",
     selectable: true, // clicking the branch opens the profiles page, and also expands it
     title: "Directory profiles",
     description: "Each profile is a named set of stage, processing, archive and fail folders. The engine watches every enabled profile.",
@@ -54,8 +46,6 @@ export function buildTree(connections = [], kinds = [], profiles = [], mappings 
       {
         id: "prof:new",
         label: "Add profile",
-        icon: "plus",
-        tone: "accent",
         action: true,
         title: "New profile",
         description: "Name a set of four folders, test them, then save.",
@@ -63,10 +53,6 @@ export function buildTree(connections = [], kinds = [], profiles = [], mappings 
       ...profiles.map((p) => ({
         id: `prof:${p.id}`,
         label: p.name,
-        icon: "folder",
-        // A switched-off profile is greyed out, so the tree shows at a glance
-        // which folders the engine is actually watching.
-        tone: p.enabled ? "stage" : "off",
         meta: p.enabled ? undefined : "off",
         title: p.name,
         description: "Folders for this profile and the files in them. Edit, test or delete it.",
@@ -76,8 +62,6 @@ export function buildTree(connections = [], kinds = [], profiles = [], mappings 
   const database = {
     id: "databases",
     label: "Database",
-    icon: "database",
-    tone: "db",
     selectable: true, // clicking the branch opens the connections page, and also expands it
     title: "Database connections",
     description: "Saved connections to your databases. Add one, test them, or open one to edit.",
@@ -85,8 +69,6 @@ export function buildTree(connections = [], kinds = [], profiles = [], mappings 
       {
         id: "db:new",
         label: "Add connection",
-        icon: "plus",
-        tone: "accent",
         action: true,
         title: "New connection",
         description: "Save a named connection to a database, then test it.",
@@ -94,8 +76,6 @@ export function buildTree(connections = [], kinds = [], profiles = [], mappings 
       ...connections.map((c) => ({
         id: `db:${c.id}`,
         label: c.name,
-        icon: "plug",
-        tone: "db",
         meta: labels[c.kind] ?? c.kind,
         title: c.name,
         description: `${labels[c.kind] ?? c.kind} connection. Edit it, test it, or delete it.`,
@@ -105,8 +85,6 @@ export function buildTree(connections = [], kinds = [], profiles = [], mappings 
   const mapping = {
     id: "mappings",
     label: "Mapping",
-    icon: "mapping",
-    tone: "map",
     selectable: true, // clicking the branch opens the mappings page, and also expands it
     title: "Mapping",
     description: "Choose which database each directory profile loads into, and which file names go to which table.",
@@ -114,8 +92,6 @@ export function buildTree(connections = [], kinds = [], profiles = [], mappings 
       {
         id: "map:new",
         label: "Add mapping",
-        icon: "plus",
-        tone: "accent",
         action: true,
         title: "New mapping",
         description: "Pick a directory profile and a database, then say which files go to which table.",
@@ -123,8 +99,6 @@ export function buildTree(connections = [], kinds = [], profiles = [], mappings 
       ...mappings.map((m) => ({
         id: `map:${m.id}`,
         label: m.profile_name,
-        icon: "arrow",
-        tone: m.enabled ? "map" : "off",
         meta: m.enabled ? m.connection_name : "off",
         title: `Mapping: ${m.profile_name}`,
         description: `Files of profile ${m.profile_name} load into ${m.connection_name}. Edit the rules, or delete the mapping.`,
