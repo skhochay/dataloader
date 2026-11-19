@@ -1,5 +1,7 @@
 import { useMemo, useRef, useState } from "react";
 
+import TreeIcon from "./icons.jsx";
+
 function flatten(nodes, expanded, depth = 1, parentId = null, out = []) {
   for (const node of nodes) {
     out.push({ node, depth, parentId });
@@ -85,11 +87,16 @@ export default function NavTree({ nodes, selectedId, onSelect, counts }) {
                 onClick={() => { setFocusId(node.id); activate(node); }}
                 onKeyDown={(e) => onKeyDown(e, index)}
               >
-                {isGroup ? (
+                {isGroup && (
                   <svg className={`chev ${expanded.has(node.id) ? "chev-open" : ""}`} viewBox="0 0 10 10" aria-hidden="true">
                     <path d="M3 1.5L6.5 5L3 8.5" />
                   </svg>
+                )}
+                {node.icon ? (
+                  <TreeIcon name={node.icon} tone={node.tone} />
                 ) : (
+                  // No icon named: fall back to the old colour dot so a node
+                  // added without one still lines up with its neighbours.
                   <span className={`swatch ${node.tone ? `swatch-${node.tone}` : ""}`} aria-hidden="true" />
                 )}
                 <span className="treeitem-label" title={node.label}>{node.label}</span>

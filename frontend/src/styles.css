@@ -12,6 +12,8 @@
   --archive-bg: #ddf0eb;
   --fail: #a83244;
   --fail-bg: #f8e2e5;
+  --db: #6b3fa0;
+  --map: #0d6ea8;
   --radius: 6px;
   font-family: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   color: var(--ink);
@@ -60,6 +62,27 @@ code { font-size: 0.9em; background: rgba(0, 0, 0, 0.06); padding: 0.1em 0.35em;
 .treeitem-label { flex: 1; }
 .chev { width: 10px; height: 10px; flex: none; fill: none; stroke: var(--muted); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.12s; }
 .chev-open { transform: rotate(90deg); }
+
+/* Tree icons. The artwork is drawn with currentColor (see components/icons.jsx),
+   so a tone class is all that is needed to recolour one. A group row shows a
+   chevron as well, so its icon is the second item in the row. */
+.treeicon { width: 16px; height: 16px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; color: var(--muted); }
+.treeicon-accent { color: var(--accent); }
+.treeicon-stage { color: var(--stage); }
+.treeicon-archive { color: var(--archive); }
+.treeicon-fail { color: var(--fail); }
+.treeicon-db { color: var(--db); }
+.treeicon-map { color: var(--map); }
+.treeicon-muted { color: var(--muted); }
+/* A switched-off profile or mapping: clearly inactive but still visible.
+   var(--line) was tried and sat at roughly 1.6:1 on white, which reads as a
+   failed render rather than a disabled row. The row also carries an "off"
+   badge, so the icon is a secondary signal, not the only one. */
+.treeicon-off { color: #9aa7b4; }
+
+/* A group row without a chevron slot would shift its icon; leaves get the
+   chevron's width back as indentation so icons stay in one column. */
+.treeitem:not(.treeitem-group) .treeicon { margin-left: 18px; }
 .swatch { width: 10px; height: 10px; flex: none; border-radius: 2px; background: var(--line); }
 .swatch-stage { background: var(--stage); }
 .swatch-archive { background: var(--archive); }
@@ -254,6 +277,7 @@ tbody tr:last-child td { border-bottom: 0; }
 .treeitem-meta { font-size: 0.75rem; color: var(--muted); background: var(--paper); border-radius: 99px; padding: 0 8px; white-space: nowrap; }
 .treeitem-action .treeitem-label { color: var(--accent); font-weight: 600; }
 .treeitem-action .swatch { background: var(--accent); }
+.treeitem-action .treeicon { color: var(--accent); }
 .input-select { min-width: 14em; }
 .input-area { width: 100%; max-width: 560px; resize: vertical; font-family: ui-monospace, Consolas, monospace; font-size: 0.9rem; }
 .check-small { font-size: 0.9rem; padding-top: 2px; }
