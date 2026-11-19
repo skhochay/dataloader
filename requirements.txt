@@ -1,0 +1,24 @@
+Django>=5.0,<6.0
+
+psutil>=5.9        # engine process checks and force stop
+
+# File format support
+openpyxl>=3.1      # .xlsx
+xlrd>=2.0.1        # .xls
+fastavro>=1.9      # .avro
+pyarrow>=15.0      # .parquet
+defusedxml>=0.7.1  # .xml (safe against entity-expansion attacks)
+
+cryptography>=42  # encrypts saved database passwords
+
+# Database connectors: install only the ones you use
+# oracledb>=2.0         # Oracle (thin mode, no Oracle client needed)
+# pymssql>=2.3          # SQL Server
+# vertica-python>=1.3   # Vertica
+# psycopg[binary]>=3.1  # PostgreSQL
+# pymysql>=1.1          # MySQL and MariaDB
+# pyodbc>=5.0           # ODBC (needs the ODBC driver for your database installed)
+# SQLite is built into Python.
+
+# Uncomment when using PostgreSQL (set POSTGRES_DB, see config/settings.py)
+# psycopg[binary]>=3.1
